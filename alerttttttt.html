@@ -1,0 +1,113 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <link rel="stylesheet" href="https://maps-sdk.trimblemaps.com/v3/trimblemaps-3.11.1.css" />
+        <script src="https://maps-sdk.trimblemaps.com/v3/trimblemaps-3.11.1.js"></script>
+        <style>
+            body { margin: 0; padding: 0; }
+
+            #map {
+                position: absolute;
+                top: 0;
+                bottom: 0;
+                width: 100%;
+            }
+
+        </style>
+    </head>
+    <body>
+        <div id="map"></div>
+
+        <script>
+            TrimbleMaps.APIKey = '56d15dcd0d80fb25cf836cbc90feb200';
+            const map = new TrimbleMaps.Map({
+                container: 'map', // container id
+                style: TrimbleMaps.Common.Style.TRANSPORTATION, // hosted style id
+                center: [-98.38, 38.69], // starting position
+                zoom: 3 // starting zoom
+            });
+            const ctrlClick = new TrimbleMaps.WeatherAlertClickControl();
+            map.addControl(ctrlClick);
+            const ctrlLegend = new TrimbleMaps.WeatherAlertLegendControl();
+            map.addControl(ctrlLegend, 'bottom-left');
+            const ctrlFilter = new TrimbleMaps.WeatherAlertFilterControl();
+            map.addControl(ctrlFilter, 'top-left');
+            map.on('load', function() {
+                map.setWeatherAlertVisibility(true);
+            });
+        </script>
+    </body>
+</html> -->
+
+
+<!-- 
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Global Weather Map</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+</head>
+<body>
+    <div id="map" style="height: 500px;"></div>
+
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script>
+        const map = L.map('map').setView([0, 0], 2); // Set initial map view
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map); // Add an OpenStreetMap tile layer
+
+        // Simulated global alerts (you would replace this with real data)
+        const alerts = [
+            { location: [50, 0], message: 'Heavy Rainfall' },
+            { location: [-25, -60], message: 'Strong Winds' },
+            // Add more alerts as needed
+        ];
+
+        // Loop through the alerts and add markers to the map
+        for (const alert of alerts) {
+            const marker = L.marker(alert.location).addTo(map);
+            marker.bindPopup(alert.message);
+        }
+    </script>
+</body>
+</html> -->
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Daily Weather</title>
+</head>
+<body>
+    <h1>Daily Weather Forecast</h1>
+    <div id="weatherData"></div>
+
+    <script>
+        // Replace 'YOUR_API_KEY' with your actual OpenWeatherMap API key
+        const apiKey = '56d15dcd0d80fb25cf836cbc90feb200';
+
+        // Define an array of cities for which you want to fetch weather data
+        const cities = ['New York', 'Los Angeles', 'London', 'Tokyo'];
+
+        async function fetchWeather(city) {
+            try {
+                const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}`);
+                const data = await response.json();
+
+                // Process the weather data
+                const temperature = (data.main.temp - 273.15).toFixed(2); // Convert to Celsius
+                const description = data.weather[0].description;
+                const cityName = data.name;
+
+                // Display the weather data
+                const weatherInfo = `${cityName}: ${temperature}°C, ${description}`;
+                document.getElementById('weatherData').innerHTML += `<p>${weatherInfo}</p>`;
+            } catch (error) {
+                console.error(`Error fetching weather data for ${city}: ${error.message}`);
+            }
+        }
+
+        // Fetch weather data for each city
+        cities.forEach(city => fetchWeather(city));
+    </script>
+</body>
+</html>
